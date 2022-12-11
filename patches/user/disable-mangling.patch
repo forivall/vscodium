@@ -1,0 +1,32 @@
+diff --git a/build/lib/mangleTypeScript.ts b/build/lib/mangleTypeScript.ts
+index 214deec0aef..f8302ddd610 100644
+--- a/build/lib/mangleTypeScript.ts
++++ b/build/lib/mangleTypeScript.ts
+@@ -138,9 +138,7 @@ class ClassData {
+ 	}
+ 
+ 	static _shouldMangle(type: FieldType): boolean {
+-		return type === FieldType.Private
+-			|| type === FieldType.Protected
+-			;
++		return false; // no mangling
+ 	}
+ 
+ 	static makeImplicitPublicActuallyPublic(data: ClassData, reportViolation: (what: string, why: string) => void): void {
+@@ -179,6 +177,8 @@ class ClassData {
+ 
+ 		data.replacements = new Map();
+ 
++		return; // skip mangling completely
++
+ 		const identPool = new ShortIdent(name => {
+ 
+ 			// locally taken
+@@ -432,6 +432,7 @@ export class Mangler {
+ 		};
+ 
+ 		for (const data of this.allClassDataByKey.values()) {
++			continue; // skip mangling
+ 
+ 			if (hasModifier(data.node, ts.SyntaxKind.DeclareKeyword)) {
+ 				continue;
